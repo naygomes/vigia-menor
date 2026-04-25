@@ -11,6 +11,8 @@ services:
     env_file: ./api/.env
     ports:
       - 4000:4000
+    volumes:
+      - ./data:/usr/src/data
     healthcheck:
       test:
         [

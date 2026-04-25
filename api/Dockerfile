@@ -20,6 +20,7 @@ RUN yarn run build
 
 FROM base as final
 ENV NODE_ENV production
+ENV PORT 4000
 USER node
 
 COPY package.json  yarn.lock .
@@ -28,4 +29,4 @@ COPY --from=build /usr/src/app/dist ./dist
 
 EXPOSE 4000
 
-CMD yarn start
+CMD ["yarn", "start"]
