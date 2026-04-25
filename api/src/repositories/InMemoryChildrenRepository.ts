@@ -1,3 +1,7 @@
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { loadSeedData } from "@/utils";
 import {
   IChild,
   IFindAllResponse,
@@ -7,11 +11,30 @@ import {
   IGetAlertSummary,
 } from "@/types";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const seedPath = path.resolve(__dirname, "../../../data/seed.json");
 export class InMemoryChildrenRepository {
   private children: IChild[];
 
-  constructor(initialData: IChild[] = []) {
-    this.children = initialData;
+  constructor() {
+    this.children = this.loadDb();
+  }
+
+  private loadDb(): IChild[] {
+    const seedData = loadSeedData(seedPath);
+
+    return seedData;
+  }
+
+  private saveToDb() {
+    if (seedPath) {
+      fs.writeFileSync(
+        seedPath,
+        JSON.stringify(this.children, null, 2),
+        "utf-8",
+      );
+    }
   }
 
   private applyFindAllFilters(
@@ -121,5 +144,19 @@ export class InMemoryChildrenRepository {
       reviewedTotal: this.countReviewed(),
       alerts: alertsSummary,
     };
+  }
+
+  async review(id: string, technicalEmail: string): Promise<IChild | null> {
+    const index = this.children.findIndex((c) => c.id === id);
+    if (index === -1) return null;
+
+    this.children[index] = {
+      ...this.children[index],
+      revisado: true,
+      revisado_por: technicalEmail,
+      revisado_em: new Date().toISOString(),
+    };
+    this.saveToDb();
+    return this.children[index];
   }
 }
