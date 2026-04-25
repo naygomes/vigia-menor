@@ -72,11 +72,6 @@ export class ChildrenService {
     if (!child) {
       throw new NotFoundError("Criança não encontrada.");
     }
-    if (child.revisado) {
-      throw new BadRequestError(
-        "Ação inválida: Esta criança já foi revisada e não pode ser alterada.",
-      );
-    }
     if (this.getTotalAlerts(child) === 0) {
       throw new BadRequestError(
         "Ação inválida: Esta criança não possui alertas a serem revisados.",
