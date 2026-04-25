@@ -8,4 +8,5 @@ export interface ILoginResponse {
 export interface IAuthRepository {
   findByEmail(email: string): Promise<IUser | null>;
   findById(id: string): Promise<IUser | null>;
+  create(userData: Omit<IUser, "id">): Promise<IUser>;
 }
