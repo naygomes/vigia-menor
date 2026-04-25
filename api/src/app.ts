@@ -1,16 +1,13 @@
 import express from "express";
+import { errorHandler } from "@/middlewares";
+import { childrenRoutes } from "@/routes";
 import { PORT } from "@/settings.js";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.get("/health", (req, res) => {
-  res.send("Everything is OK!");
-});
-
+app.use(express.json());
+app.use("/children", childrenRoutes);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
