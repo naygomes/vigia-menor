@@ -3,6 +3,8 @@ import {
   IFindAllResponse,
   IFindAllParams,
   IFindAllFilters,
+  IGetSummaryResponse,
+  IGetAlertSummary,
 } from "@/types";
 
 export class InMemoryChildrenRepository {
@@ -73,5 +75,51 @@ export class InMemoryChildrenRepository {
 
   async findById(id: string): Promise<IChild | null> {
     return this.children.find((child) => child.id === id) || null;
+  }
+
+  private countReviewed(): number {
+    return this.children.filter((child) => child.revisado).length;
+  }
+
+  private getAlertsSummary(): IGetAlertSummary {
+    const alerts = {
+      health: 0,
+      education: 0,
+      socialAssistance: 0,
+      perNeighborhood: {} as Record<string, number>,
+    };
+
+    for (const child of this.children) {
+      let hasAlert = false;
+      if (child.saude?.alertas?.length) {
+        alerts.health++;
+        hasAlert = true;
+      }
+      if (child.educacao?.alertas?.length) {
+        alerts.education++;
+        hasAlert = true;
+      }
+      if (child.assistencia_social?.alertas?.length) {
+        alerts.socialAssistance++;
+        hasAlert = true;
+      }
+
+      if (hasAlert) {
+        const bairro = child.bairro;
+        alerts.perNeighborhood[bairro] =
+          (alerts.perNeighborhood[bairro] || 0) + 1;
+      }
+    }
+    return alerts;
+  }
+
+  async getSummary(): Promise<IGetSummaryResponse | null> {
+    const alertsSummary = this.getAlertsSummary();
+
+    return {
+      childrenTotal: this.children.length,
+      reviewedTotal: this.countReviewed(),
+      alerts: alertsSummary,
+    };
   }
 }
