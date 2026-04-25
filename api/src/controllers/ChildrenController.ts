@@ -39,4 +39,18 @@ export class ChildrenController {
     const result = await this.childrenService.findAll(params);
     res.json(result);
   };
+
+  findById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    if (Array.isArray(id)) {
+      throw new BadRequestError("ID duplicado não é permitido.");
+    }
+
+    const child = await this.childrenService.findById(id);
+    if (!child) {
+      throw new NotFoundError("Criança não encontrada.");
+    }
+
+    res.json(child);
+  };
 }
