@@ -53,4 +53,9 @@ export class ChildrenController {
 
     res.json(child);
   };
+
+  getSummary = async (req: Request, res: Response) => {
+    const summary = await this.childrenService.getSummary();
+    res.json(summary);
+  };
 }
