@@ -21,4 +21,8 @@ export class ChildrenService {
   async findById(id: string): Promise<IChild | null> {
     return this.childrenRepository.findById(id);
   }
+
+  async getSummary(): Promise<IGetSummaryResponse | null> {
+    return this.childrenRepository.getSummary();
+  }
 }
