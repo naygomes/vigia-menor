@@ -17,4 +17,8 @@ export class ChildrenService {
     }
     return this.childrenRepository.findAll(params);
   }
+
+  async findById(id: string): Promise<IChild | null> {
+    return this.childrenRepository.findById(id);
+  }
 }
