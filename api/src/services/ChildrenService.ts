@@ -25,4 +25,54 @@ export class ChildrenService {
   async getSummary(): Promise<IGetSummaryResponse | null> {
     return this.childrenRepository.getSummary();
   }
+
+  private isCorporateEmail(email: string): boolean {
+    return email.endsWith("@prefeitura.rio");
+  }
+
+  private getTotalAlerts(child: IChild): number {
+    return (
+      (child.saude?.alertas?.length || 0) +
+      (child.educacao?.alertas?.length || 0) +
+      (child.assistencia_social?.alertas?.length || 0)
+    );
+  }
+
+  async review(id: string, technicalEmail: string): Promise<IChild> {
+    if (!technicalEmail || !isValidEmail(technicalEmail)) {
+      throw new Error(
+        "Acesso negado: E-mail inválido. Tente novamente com outro e-mail.",
+      );
+    }
+    if (!this.isCorporateEmail(technicalEmail)) {
+      throw new Error(
+        "Acesso negado: Apenas e-mails corporativos (@prefeitura.rio) podem realizar revisões.",
+      );
+    }
+
+    const child = await this.childrenRepository.findById(id);
+    if (!child) {
+      throw new Error("Ação inválida: Criança não encontrada.");
+    }
+    if (child.revisado) {
+      throw new Error(
+        "Ação inválida: Esta criança já foi revisada e não pode ser alterada.",
+      );
+    }
+    if (this.getTotalAlerts(child) === 0) {
+      throw new Error(
+        "Ação inválida: Esta criança não possui alertas a serem revisados.",
+      );
+    }
+
+    const updatedChild = await this.childrenRepository.review(
+      id,
+      technicalEmail,
+    );
+    if (!updatedChild) {
+      throw new Error("Erro interno: Falha ao atualizar o status da criança.");
+    }
+
+    return updatedChild;
+  }
 }
