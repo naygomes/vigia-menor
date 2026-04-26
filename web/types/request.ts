@@ -17,8 +17,15 @@ export type PostParams = {
   customHeaders?: HeadersInit;
 };
 
+export type PatchParams = {
+  endpoint: string;
+  data?: any;
+  customHeaders?: HeadersInit;
+};
+
 export interface IFetchData {
   request({ url, method, data, customHeaders }: RequestParams): Promise<any>;
   get({ endpoint, params, customHeaders }: GetParams): Promise<any>;
   post({ endpoint, data, customHeaders }: PostParams): Promise<any>;
+  patch({ endpoint, data, customHeaders }: PatchParams): Promise<any>;
 }
