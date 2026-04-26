@@ -36,7 +36,15 @@ export function useFetch({ baseURL }: useFetchProps): IFetchData {
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        let errorMessage = response.statusText;
+
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {}
+        const error: any = new Error(errorMessage);
+        error.status = response.status;
+        throw error;
       }
       return await response.json();
     } catch (error) {
