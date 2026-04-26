@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useFetch, useAuth } from "@/hooks";
-import { CHILDREN_ROUTE } from "@/settings";
+import { CHILDREN_ROUTE, SUMMARY_ENDPOINT } from "@/settings";
 import { IGetChildrenParams } from "@/types";
 
 export function useChildren() {
@@ -37,5 +37,20 @@ export function useChildren() {
     [get, customHeaders, token],
   );
 
-  return { getChildren };
+  const getSummary = useCallback(async () => {
+    if (!token) return;
+
+    try {
+      const summary = await get({
+        endpoint: SUMMARY_ENDPOINT,
+        customHeaders,
+      });
+
+      return summary;
+    } catch (error) {
+      console.error("Erro ao buscar resumo:", error);
+    }
+  }, [get, customHeaders, token]);
+
+  return { getChildren, getSummary };
 }
