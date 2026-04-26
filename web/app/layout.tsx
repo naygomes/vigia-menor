@@ -25,13 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className={`antialiased`}>
-        <div className="flex flex-col justify-between min-h-screen">
-          <div className="mt-3 flex flex-col justify-between gap-5">
-            {children}
-          </div>
-        </div>
-      </body>
+      <body className={`antialiased`}>{children}</body>
     </html>
   );
 }
