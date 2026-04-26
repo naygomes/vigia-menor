@@ -5,7 +5,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    container_name: vigia-menor-api
+    container_name: cria-api
     environment:
       NODE_ENV: production
     env_file: ./api/.env
@@ -30,7 +30,7 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
-    container_name: vigia-menor-web
+    container_name: cria-web
     depends_on:
       api:
         condition: service_healthy

@@ -5,8 +5,8 @@ import { useFetch } from "@/hooks";
 import { IUser, ILoginResponse } from "@/types";
 import { API_HOST, LOGIN_ENDPOINT } from "@/settings";
 
-const TOKEN_COOKIE_NAME = "vigia_menor_token";
-const USER_COOKIE_NAME = "vigia_menor_user";
+const TOKEN_COOKIE_NAME = "cria_token";
+const USER_COOKIE_NAME = "cria_user";
 
 export function useAuth() {
   const [user, setUser] = useState<IUser | null>(null);
