@@ -52,5 +52,20 @@ export function useChildren() {
     }
   }, [get, customHeaders, token]);
 
-  return { getChildren, getSummary };
+  const getChildById = async (id: string) => {
+    if (!token) return;
+
+    try {
+      const child = await get({
+        endpoint: "/" + id,
+        customHeaders,
+      });
+
+      return child;
+    } catch (error) {
+      console.error("Erro ao buscar criança:", error);
+    }
+  };
+
+  return { getChildren, getSummary, getChildById };
 }
