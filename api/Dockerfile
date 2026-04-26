@@ -20,13 +20,13 @@ RUN yarn run build
 
 FROM base as final
 ENV NODE_ENV production
-ENV PORT 4000
+ENV PORT 5000
 USER node
 
 COPY package.json  yarn.lock .
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/dist ./dist
 
-EXPOSE 4000
+EXPOSE 5000
 
 CMD ["yarn", "start"]
