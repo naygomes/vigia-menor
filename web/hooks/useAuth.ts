@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useFetch } from "@/hooks";
 import { IUser, ILoginResponse } from "@/types";
-import { API_HOST, LOGIN_ENDPOINT } from "@/settings";
-
-const TOKEN_COOKIE_NAME = "cria_token";
-const USER_COOKIE_NAME = "cria_user";
+import {
+  API_HOST,
+  LOGIN_ENDPOINT,
+  TOKEN_COOKIE_NAME,
+  USER_COOKIE_NAME,
+} from "@/settings";
 
 export function useAuth() {
   const [user, setUser] = useState<IUser | null>(null);
@@ -49,6 +51,7 @@ export function useAuth() {
   function logout() {
     Cookies.remove(TOKEN_COOKIE_NAME);
     Cookies.remove(USER_COOKIE_NAME);
+    setToken(null);
     setUser(null);
   }
 
