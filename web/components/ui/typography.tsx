@@ -25,7 +25,7 @@ export function Typography({
     h1: "scroll-m-20 text-3xl sm:text-4xl lg:text-4xl font-extrabold tracking-tight",
     h2: "scroll-m-20 text-2xl sm:text-3xl lg:text-3xl font-semibold tracking-tight first:mt-0",
     h3: "scroll-m-20 text-xl sm:text-2xl lg:text-2xl font-semibold tracking-tight",
-    p: "text-base sm:text-lg leading-7 [&:not(:first-child)]:mt-6",
+    p: "text-lg sm:text-base leading-7 ",
   };
 
   const alignStyles = {
