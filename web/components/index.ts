@@ -2,6 +2,7 @@ export * from "./AlertSection/AlertSection";
 export * from "./ChildCard/ChildCard";
 export * from "./ChildrenPaginator/ChildrenPaginator";
 export * from "./ChildrenSection/ChildrenSection";
+export * from "./Filter/Filter";
 export * from "./Footer/Footer";
 export * from "./LoginForm/LoginForm";
 export * from "./Navbar/Navbar";
