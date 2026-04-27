@@ -1,10 +1,15 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { Navbar, ChildrenSection, Footer } from "@/components";
 
 export default function Home() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <Button variant="outline">Teste</Button>
-    </>
+    <div className="bg-vm-background w-screen h-screen overflow-x-hidden">
+      <Navbar />
+      <div className="min-h-screen h-fit flex flex-col items-center justify-start gap-10 pt-40 px-4">
+        <ChildrenSection />
+        <Footer />
+      </div>
+    </div>
   );
 }

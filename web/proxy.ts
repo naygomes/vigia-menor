@@ -11,16 +11,14 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  /*
-  const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard");
-  if (isProtectedRoute && !token) {
+  const isMainPage = request.nextUrl.pathname === "/";
+  if (isMainPage && !token) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
-  */
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/login", "/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  matcher: ["/login", "/", "/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
