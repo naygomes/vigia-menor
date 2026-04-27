@@ -5,6 +5,7 @@ import { useChildren, useAuth } from "@/hooks";
 import { IChild, Pagination } from "@/types";
 
 const LABEL = "Crianças com cadastro ativo";
+const NO_CHILD_LABEL = "Nenhuma criança encontrada.";
 
 const childClasses = {
   container: "w-full flex flex-col items-center justify-start gap-10 p-4",
@@ -25,12 +26,14 @@ export function ChildrenSection({ neighborhoods }: IChildrenSectionProps) {
   });
 
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({});
+
   const { getChildren } = useChildren();
   const { token } = useAuth();
 
   useEffect(() => {
     async function handleData() {
-      const response = await getChildren({ limit: 8, page });
+      const response = await getChildren({ limit: 8, page, filters });
       if (response) {
         setChildrenData(response?.data);
         setMetaData(response?.meta);
@@ -39,7 +42,7 @@ export function ChildrenSection({ neighborhoods }: IChildrenSectionProps) {
     if (token) {
       handleData();
     }
-  }, [token, page]);
+  }, [token, page, filters]);
 
   return (
     <div className={childClasses.container}>
@@ -53,15 +56,21 @@ export function ChildrenSection({ neighborhoods }: IChildrenSectionProps) {
       </Typography>
       <Filter
         neighborhoodsData={neighborhoods}
-        setChildren={setChildrenData}
-        setMetaData={setMetaData}
+        setPage={setPage}
+        setFilters={setFilters}
       />
-      <div className={childClasses.cardContainer}>
-        {childrenData?.length > 0 &&
-          childrenData.map((child) => (
+
+      {childrenData?.length > 0 ? (
+        <div className={childClasses.cardContainer}>
+          {childrenData.map((child) => (
             <ChildCard key={child.id} child={child} />
           ))}
-      </div>
+        </div>
+      ) : (
+        <Typography level="h3" align="center" color="text-vm-navy">
+          {NO_CHILD_LABEL}
+        </Typography>
+      )}
 
       {metaData.totalPages > 1 && (
         <ChildrenPaginator

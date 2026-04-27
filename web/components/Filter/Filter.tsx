@@ -1,54 +1,59 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { NativeSelect, NativeSelectOption } from "@/components/ui";
-import { useChildren } from "@/hooks";
+import {
+  Button,
+  Checkbox,
+  Field,
+  FieldGroup,
+  FieldLabel,
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components";
 
 interface IFilterProps {
   neighborhoodsData: string[];
-  setChildren: React.Dispatch<React.SetStateAction<any[]>>;
-  setMetaData: React.Dispatch<React.SetStateAction<any>>;
+  setPage: React.Dispatch<React.SetStateAction<any>>;
+  setFilters: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const DEFAULT_LABEL = "Selecione o bairro...";
+const REVIEWED_LABEL = "Crianças não revisadas pela equipe";
+const ALERTS_LABEL = "Crianças com alertas ativos";
 
 export function Filter({
   neighborhoodsData,
-  setChildren,
-  setMetaData,
+  setPage,
+  setFilters,
 }: IFilterProps) {
   const [neighborhood, setNeighborhood] = useState<string>("");
-  const [hasAlerts, setHasAlerts] = useState<boolean>();
-  const [wasReviewed, setWasReviewed] = useState<boolean>();
-  const { getChildren } = useChildren();
+  const [hasAlerts, setHasAlerts] = useState<boolean>(false);
+  const [wasReviewed, setWasReviewed] = useState<boolean>(false);
 
   useEffect(() => {
-    if (neighborhood) {
-      async function fetchFilteredChildren() {
-        const filters = {
-          ...(neighborhood && { neighborhood }),
-          ...(hasAlerts !== undefined && { hasAlerts }),
-          ...(wasReviewed !== undefined && { wasReviewed }),
-        };
+    async function updateFilters() {
+      const filters = {
+        ...(neighborhood && { neighborhood }),
+        ...(hasAlerts && { hasAlerts }),
+        ...(wasReviewed && { wasReviewed }),
+      };
 
-        const response = await getChildren({
-          filters,
-          limit: 8,
-          page: 1,
-        });
-        if (response) {
-          setChildren(response.data);
-          setMetaData(response.meta);
-        }
-      }
-      fetchFilteredChildren();
+      setFilters(filters);
+      setPage(1);
     }
-  }, [neighborhood]);
+    updateFilters();
+  }, [neighborhood, hasAlerts, wasReviewed]);
+
+  const clearFilters = () => {
+    setNeighborhood("");
+    setHasAlerts(false);
+    setWasReviewed(false);
+  };
 
   return (
-    <div className="w-full p-8 border border-vm-primary rounded-xl w-19/20 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div className="w-full p-8 border border-vm-primary rounded-xl w-19/20 flex flex-col lg:flex-row items-center justify-between gap-4">
       <NativeSelect
-        className="w-full sm:w-[300px]"
+        className="w-full"
         value={neighborhood}
         onChange={(e) => setNeighborhood(e.target.value)}
       >
@@ -61,6 +66,33 @@ export function Filter({
           </NativeSelectOption>
         ))}
       </NativeSelect>
+      <FieldGroup className="w-full flex flex-col md:flex-row items-start">
+        <Field orientation="horizontal">
+          <Checkbox
+            id="alerts-checkbox-basic"
+            name="alerts-checkbox-basic"
+            checked={hasAlerts}
+            onCheckedChange={(checked) => setHasAlerts(checked === true)}
+          />
+          <FieldLabel htmlFor="alerts-checkbox-basic">
+            {ALERTS_LABEL}
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal">
+          <Checkbox
+            id="reviewed-checkbox-basic"
+            name="reviewed-checkbox-basic"
+            checked={wasReviewed}
+            onCheckedChange={(checked) => setWasReviewed(checked === true)}
+          />
+          <FieldLabel htmlFor="reviewed-checkbox-basic">
+            {REVIEWED_LABEL}
+          </FieldLabel>
+        </Field>
+      </FieldGroup>
+      <Button variant="outline" onClick={clearFilters}>
+        Limpar Filtros
+      </Button>
     </div>
   );
 }
