@@ -10,9 +10,15 @@
   --color-vm-primary: #65a2e0;
   --color-vm-secondary: #267bd0;
   --color-vm-tertiary: #e0b546;
-  --color-vm-background: #e4eef9;
+  --color-vm-light-blue: #a8d1fd;
+  --color-vm-navy: #1b3b5c;
+  --color-vm-muted: #849bb3;
   --color-vm-light: #fffbf2;
   --color-vm-dark: #171717;
+  --color-vm-background: #e4eef9;
+  --color-vm-success: #52b788;
+  --color-vm-danger: #e06c65;
+  --color-vm-warning: #f4a261;
 }
 
 * {
@@ -95,7 +101,7 @@ body {
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --chart-5: #a1a1a1;
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
