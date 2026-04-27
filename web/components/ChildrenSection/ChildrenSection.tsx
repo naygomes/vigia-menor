@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Typography, ChildCard, ChildrenPaginator } from "@/components";
+import { Typography, ChildCard, ChildrenPaginator, Filter } from "@/components";
 import { useChildren, useAuth } from "@/hooks";
 import { IChild, Pagination } from "@/types";
 
@@ -11,7 +11,11 @@ const childClasses = {
   cardContainer: "w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6",
 };
 
-export function ChildrenSection() {
+interface IChildrenSectionProps {
+  neighborhoods: string[];
+}
+
+export function ChildrenSection({ neighborhoods }: IChildrenSectionProps) {
   const [childrenData, setChildrenData] = useState<IChild[]>([]);
   const [metaData, setMetaData] = useState<Pagination>({
     total: 0,
@@ -47,6 +51,11 @@ export function ChildrenSection() {
       >
         {LABEL}
       </Typography>
+      <Filter
+        neighborhoodsData={neighborhoods}
+        setChildren={setChildrenData}
+        setMetaData={setMetaData}
+      />
       <div className={childClasses.cardContainer}>
         {childrenData?.length > 0 &&
           childrenData.map((child) => (
