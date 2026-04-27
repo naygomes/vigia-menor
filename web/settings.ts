@@ -7,3 +7,6 @@ export const SUMMARY_ENDPOINT = "/summary";
 export const REGISTER_ENDPOINT = "/register";
 export const LOGIN_ENDPOINT = "/login";
 export const USER_ENDPOINT = "/users";
+
+export const TOKEN_COOKIE_NAME = "cria_token";
+export const USER_COOKIE_NAME = "cria_user";
