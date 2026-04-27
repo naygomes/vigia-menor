@@ -19,6 +19,9 @@
   --color-vm-success: #52b788;
   --color-vm-danger: #e06c65;
   --color-vm-warning: #f4a261;
+  --color-vm-education: #6a4c93;
+  --color-vm-health: #2a9d8f;
+  --color-vm-assistance: #ac186f;
 }
 
 * {
