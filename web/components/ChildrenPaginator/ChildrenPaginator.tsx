@@ -1,9 +1,8 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
+  PaginationItems,
   PaginationNext,
   PaginationPrevious,
 } from "@/components";
