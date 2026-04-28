@@ -26,7 +26,7 @@ export function ChildInfo({ child }: IChildInfoProps) {
 
   return (
     <Card>
-      <CardContent>
+      <CardContent className="flex justify-between items-center">
         <div className="flex flex-col gap-2">
           <Typography level="h1" weight="bold" color="text-vm-primary">
             {nome}
@@ -39,7 +39,7 @@ export function ChildInfo({ child }: IChildInfoProps) {
         <div className="flex flex-col items-start md:items-end gap-2">
           <Badge
             variant={revisado ? "default" : "destructive"}
-            className="text-sm px-4 py-2 bg-vm-success"
+            className="text-sm px-4 py-2"
           >
             {reviewed_label}
           </Badge>
