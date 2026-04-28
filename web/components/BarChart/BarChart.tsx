@@ -14,6 +14,7 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
+  Typography,
 } from "@/components";
 import { IGetSummaryResponse } from "@/types";
 
@@ -45,6 +46,7 @@ interface IBarChartProps {
 export function BarChart({ summary }: IBarChartProps) {
   const DESCRIPTION_CHART = `Total de alertas ativos por área: Saúde (${summary?.alerts?.health || 0}), Educação (${summary?.alerts?.education || 0}) e Assistência Social (${summary?.alerts?.socialAssistance || 0}).`;
 
+  const { childrenTotal = 0, reviewedTotal = 0 } = summary || {};
   const {
     health = 0,
     education = 0,
@@ -55,7 +57,6 @@ export function BarChart({ summary }: IBarChartProps) {
     labels: LABELS,
     datasets: [
       {
-        label: "Total de Alertas",
         data: [health, education, socialAssistance],
         backgroundColor: [
           "rgba(42,157, 143, 0.6)",
@@ -67,12 +68,18 @@ export function BarChart({ summary }: IBarChartProps) {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full h-full flex flex-col">
       <CardHeader>
         <CardTitle>{ACTIVE_ALERTS_LABEL}</CardTitle>
         <CardDescription>{DESCRIPTION_CHART}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 flex-col justify-center gap-4">
+        <Typography color="text-vm-navy" className="mt-8">
+          <b>Total de crianças: </b> {childrenTotal || 0}
+        </Typography>
+        <Typography color="text-vm-navy" className="mb-8">
+          <b>Crianças revisadas: </b> {reviewedTotal || 0}
+        </Typography>
         <Bar options={options} data={chartData} />
       </CardContent>
     </Card>
