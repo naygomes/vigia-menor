@@ -1,6 +1,7 @@
 export * from "./AlertSection/AlertSection";
 export * from "./BarChart/BarChart";
 export * from "./ChildCard/ChildCard";
+export * from "./ChildInfo/ChildInfo";
 export * from "./ChildrenPaginator/ChildrenPaginator";
 export * from "./ChildrenSection/ChildrenSection";
 export * from "./Dashboard/Dashboard";
